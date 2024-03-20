@@ -1,0 +1,82 @@
+class Solution {
+/*
+232.用栈实现队列
+请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+*/
+  Deque<Integer> stack1;
+  Deque<Integer> satck2;
+  public MyQueue() {
+    stack1 = new ArrayDeque<Integer>();
+    stack2 = new ArrayDeque<Integer>();
+  }
+  public void push(int x) {
+    stack1.push(x);
+  }
+  public int pop() {
+    if(stack2.isEmpty()) {
+      in2out();
+    }
+    return stack2.pop();
+  }
+  public int peek() {
+    if(stack2.isEmpty()) {
+      in2out();
+    }
+    return stack2.peek();
+  }
+  public boolean empty() {
+    return stack1.isEmpty() && stack2.isEmpty();
+  }
+  private void in2out() {
+    while(!stack1.isEmpty) {
+      stack2.push(stack1.pop());
+    }
+  }
+
+/*
+242.有效的字母异位词
+给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+注意：若 s 和 t 中每个字符出现的次数都相同，则称 s 和 t 互为字母异位词。
+*/
+  public boolean isAnagram(String s, String t) {
+    if(s.length() != t.length()) {
+      return false;
+    }
+    int[] arrs = new int[26];
+    for(int i = 0; i < s.length(); i++) {
+      arrs[s.charAt(i) - 'a']++;
+    }
+    for(int i = 0; i < t.length(); i++) {
+      arrs[t.charAt(i) - 'a']--;
+      if(arrs[t.charAt(i) - 'a'] < 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+/*
+257.二叉树的所有路径
+给你一个二叉树的根节点 root ，按 任意顺序 ，返回所有从根节点到叶子节点的路径。
+叶子节点 是指没有子节点的节点。
+*/
+  public List<String> binaryTreePaths(TreeNode root) {
+    List<String> list = new ArrayList<>();
+    findPath(root, "", list);
+    return list;
+  }
+  public void findPath(TreeNode root, String path, List list) {
+    if(root == null) {
+      return;
+    }
+    StringBuffer sb = new StringBuffer(path);
+    sb.append(Integer.toString(root.val));
+    if(root.left == null && root.right == null) {
+      list.add(sb.toString());
+    } else {
+      sb.append("->");
+      findPath(root.left, sb.toString(), list);
+      findPath(root.right, sb.toString(), list);
+    }
+  }
+}
